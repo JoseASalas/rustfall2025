@@ -1,3 +1,6 @@
+use std::io;
+use std::io::stdin;
+
 fn fahrenheit_to_celsius(f: &f64) -> f64{ // for assignment 1
     let cel = (f - 32.0) / (1.8);
     return cel;
@@ -14,17 +17,33 @@ fn is_even(n: i32) -> bool{ //for Assignment 2
     }
     return false;
 }
+fn check_guess(guess: i32, secret: i32) -> i32{
+    if guess == secret{
+        return 0;
+    }
+    else if guess > secret{
+        return 1;
+    }
+    else{
+        return -1;
+    }
+}
+
 
 fn assignment_1(){
+    //variables
     let freezing = 32.0;
     let temp: &f64 = &96.00;
     print!("{}", fahrenheit_to_celsius(temp));
     println!(" ");
     let mut temp_conv = freezing;
+
+    //loop
     while temp_conv < (freezing + 5.0){
         println!("{}", fahrenheit_to_celsius(&(temp_conv + 1.0)));
         temp_conv += 1.0;
     }
+    println!(" ");
 }
 fn assignment_2(){
     //Array and variables
@@ -68,10 +87,41 @@ fn assignment_2(){
         count += 1;
     }
     println!("{}", largest);
+    println!(" ");
+}
+
+fn assignment_3(){
+
+    //variables
+    let secret = 63;
+    let mut correct = -1;
+    let mut tries = 0;
+
+
+    loop{
+        tries += 1;
+        let mut input = String::new(); //User Guess
+        io::stdin().read_line(&mut input).expect("A Number");
+        let guess: i32 = input.trim().parse().expect("Not an integer");
+        correct = check_guess(guess, secret);
+        if correct == -1{
+            println!("Too Low!");
+        }
+        else if correct == 1{
+            println!("Too High!");
+        }
+        else {
+            break;
+        }
+    }
+
+    print!("Congradulations! You got the correct answer in {}", tries);
+    print!(" guesses.");
+    println!(" ");
 }
 
 fn main() {
     assignment_1();
     assignment_2();
-    //assignment_3();
+    assignment_3();
 }
