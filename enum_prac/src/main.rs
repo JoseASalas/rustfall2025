@@ -11,7 +11,7 @@ struct Inventory{
 impl Inventory{
     fn available_fruits(&self) {
         for f in &self.fruit{
-           // println!("{:?}", f);
+           println!("{:?}", f);
            Self::tell_me_joke(f);
         }
     }
@@ -25,9 +25,9 @@ impl Inventory{
     }
 }
 fn main() {
-    let a = "An apple a day keeps the doctor away.".to_string();
-    let b = "A banana boosts energy in a peel.".to_string();
-    let t = "A tomato a day keeps the sunburn away.".to_string();
+    let a = "Appealing to an apple is hard.".to_string();
+    let b = "Bananas help you give others the slip.".to_string();
+    let t = "All right, give me the sause.".to_string();
     let fruits = vec![Fruit::Banana(b),Fruit::Apple(a),Fruit::Tomato(t)];
    //bad example let fruit = 1; //Banana
    
