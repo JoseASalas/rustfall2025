@@ -10,16 +10,33 @@ struct Book {
 fn save_books(books: &Vec<Book>, filename: &str) {
     // TODO: Implement this function
     // Hint: Use File::create() and write!() macro
-    let mut file = File::create(filename)?;
-    write! (&mut file, "Book Name: {}, Author: {}, Year Published: {}", books.title, books.author, books.year)
+    let mut file = File::create(filename);
+    for book in books {
+        writeln!(file.as_ref().expect("Failed to write to file"), "{};{};{}", book.title, book.author, book.year);
+    }
 }
 
 fn load_books(filename: &str) -> Vec<Book> {
     // TODO: Implement this function
     // Hint: Use File::open() and BufReader
-    let file = File::open(filename);
-    let mut reader = BufReader::new(file);
+    let mut file = File::open(filename).expect("Failed to open file");
+    let reader = BufReader::new(file);
+    let mut books = Vec::new();
 
+    for line in reader.lines() {
+        let line = line.expect("Failed to read line");
+        let parts: Vec<&str> = line.split(';').collect();
+        if parts.len() == 3 {
+            let book = Book {
+                title: parts[0].to_string(),
+                author: parts[1].to_string(),
+                year: parts[2].parse().expect("Failed to parse year"),
+            };
+            books.push(book);
+        }
+    }
+    books
+    
 }
 
 fn main() {
